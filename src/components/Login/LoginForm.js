@@ -32,6 +32,7 @@ export default function LoginForm(props) {
   }
 
   const routeToHome = () => {
+    
     history.push("/");
   }
 

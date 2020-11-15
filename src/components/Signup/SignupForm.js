@@ -36,7 +36,10 @@ export default function SignupForm(props) {
     <form className='form container' onSubmit={formSubmit}>
       <div className='form-group submit'>
         <h2>Sign Up</h2>
-        <button name="disabledButtSignup" disabled={disabled} onClick={routeToLogin}>submit</button>
+        <button name="disabledButtSignup" disabled={disabled} onClick={routeToLogin}>Submit</button>
+        <br></br>
+        <br></br>
+        <button onClick={routeToLogin}>Back to Login</button>
         <br></br>
 
         <div name="errors" className='errors'>

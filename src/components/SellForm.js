@@ -35,7 +35,7 @@ export default function SellForm(props) {
             Go back home to see listings.
         </Link>
         <br></br><br></br> */}
-        <button name="disabledButt" disabled={disabled}>submit</button>
+        <button name="disabledButt" disabled={disabled}>Submit</button>
 
         <div name="errors" className='errors'>
           <div name="ownerError">{errors.owner}</div>
