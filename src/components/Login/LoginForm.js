@@ -49,7 +49,7 @@ export default function LoginForm(props) {
       </div>
 
       <div className='form-group inputs'>
-        <h4>If you don't have login credentials, sign up <button onClick={routeToSignup}>here.</button></h4>
+        <h4>If you don't have login credentials, sign up <button id="signUpBtn" onClick={routeToSignup}>here.</button></h4>
         <p>
             Console log should return success message if the username and password submitted below
             can both be found in any given entry of the dummy api ("https://reqres.in/api/users") —— 
