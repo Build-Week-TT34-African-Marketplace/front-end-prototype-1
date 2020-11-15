@@ -220,6 +220,16 @@ export default function App() {
   return (
     <div>
       <Switch>
+        <Route path="/signup">
+          <SignupForm
+            values={signupFormValues}
+            change={changeSignup}
+            submit={submitSignup}
+            disabled={signupFormDisabled}
+            errors={signupFormErrors}
+            className="form"
+          />
+        </Route>
         <Route path="/">
           <nav className="container">
             <Link to={"/"} style={{ color: "black", textDecoration: 'none' }}>
@@ -259,16 +269,6 @@ export default function App() {
               return <Item className="container" key={order.id} details={order} />
             })
           }
-        </Route>
-        <Route path="/signup">
-          <SignupForm
-            values={signupFormValues}
-            change={changeSignup}
-            submit={submitSignup}
-            disabled={signupFormDisabled}
-            errors={signupFormErrors}
-            className="form"
-          />
         </Route>
         {/* <Route path="/login">
           <LoginForm
