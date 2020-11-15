@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Route, Link, Switch } from "react-router-dom";
+
 import SellForm from "./SellForm";
-import Item from "./Item";
 import Validation from "./Validation";
+import Item from "./Item";
+
+import SignupForm from './SignupForm';
 import SignupValidation from "./SignupValidation";
 
+import LoginForm from './LoginForm';
+import LoginValidation from "./LoginValidation";
+
 import * as yup from "yup";
-import SignupForm from './SignupForm';
 
 // Item to be sold state initialization values (edited by SellForm)
 // We may want to include a key more specific than "owner" 
@@ -49,6 +54,17 @@ const initialSignupFormErrors = {
 const initialSignupDisabled = true;
 const initialUsers = [];
 
+// Login form state initialization values (edited by LoginForm)
+const initialLoginFormValues = {
+  username: "",
+  password: "",
+};
+const initialLoginFormErrors = {
+  username: "",
+  password: "",
+};
+const initialLoginDisabled = true;
+
 
 export default function App() {
   // State for `SellForms` and for listed `items`
@@ -63,6 +79,12 @@ export default function App() {
   const [signupFormValues, setSignupFormValues] = useState(initialSignupFormValues);
   const [signupFormErrors, setSignupFormErrors] = useState(initialSignupFormErrors);
   const [signupFormDisabled, setSignupFormDisabled] = useState(initialSignupDisabled);
+
+  // State for `LoginForm`
+  // To be checked against `users` state array
+  const [loginFormValues, setLoginFormValues] = useState(initialLoginFormValues);
+  const [loginFormErrors, setLoginFormErrors] = useState(initialLoginFormErrors);
+  const [loginFormDisabled, setLoginFormDisabled] = useState(initialLoginDisabled);
 
 
   // ****** SELLFORM FUNCTIONALITY BELOW ******
@@ -169,7 +191,7 @@ export default function App() {
       .then((res) => {
         setUsers([res.data, ...users]);
         setSignupFormValues(initialSignupFormValues);
-        console.log(items);
+        // console.log(users);
       })
       .catch((err) => {
         console.log(err);
@@ -217,10 +239,99 @@ export default function App() {
 
   // ****** SIGNUPFORM FUNCTIONALITY ABOVE ******
 
+  // ****** LOGINFORM FUNCTIONALITY BELOW ******
+
+  // axios request for getting users from that database to which
+  // newUser was posted in SignUp from above should replace
+
+  // const checkLogin = (loginObj) => {
+  //   console.log(users);
+    
+  // }
+
+  const checkLogin = (loginObj) => {
+    axios
+      .get("https://reqres.in/api/users")
+      .then((res) => {
+        console.log(res);
+        setUsers(res);
+        let instance = false;
+        users.forEach((user) => {
+          if (loginObj.username === user.username && loginObj.password === user.password) {
+            instance = true;
+          }
+        });
+        instance ? 
+        console.log("Login success. Username and password found in `users` state.") :
+        console.log("Login failure. Username and password NOT found in `users` state.")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const changeLogin = (name, value) => {
+    yup
+    // LoginValidation ******
+      .reach(LoginValidation, name)
+      .validate(value)
+      .then(() => {
+        // console.log(value);
+        setSignupFormErrors({
+          ...loginFormErrors,
+          [name]: "",
+        });
+      })
+      .catch((err) => {
+        setLoginFormErrors({
+          ...loginFormErrors,
+          [name]: err.errors[0],
+        });
+      });
+      setLoginFormValues({...loginFormValues, [name]: value});
+  };
+
+  const submitLogin = () => {
+    const loginInfo = {
+      username: loginFormValues.username.trim(),
+      password: loginFormValues.password.trim(),
+    }
+    console.log(loginInfo);
+    checkLogin(loginInfo);
+  };
+
+  useEffect(() => {
+    LoginValidation.isValid(loginFormValues).then((valid) => {
+      setLoginFormDisabled(!valid);
+    });
+  }, [loginFormValues]);
+
+  // ****** LOGINFORM FUNCTIONALITY ABOVE ******
+
+  // console.log(users);
+
   return (
     <div>
       <Switch>
+        <Route path="/login">
+          <Link to="/">Click here to continue to path `/` (home/items page) 
+          after submitting login information.
+          (I can't add the link to the submit button without cancelling the 
+          form submission, for some reason.)</Link>
+          <LoginForm
+            values={loginFormValues}
+            change={changeLogin}
+            submit={submitLogin}
+            disabled={loginFormDisabled}
+            errors={loginFormErrors}
+            className="form"
+          />
+        </Route>
         <Route path="/signup">
+          <Link to="/login">Click here to continue to path `/login` (home/items page) 
+          after submitting signup information.
+          (I can't add the link to the submit button without cancelling the 
+          form submission, for some reason.)</Link>
           <SignupForm
             values={signupFormValues}
             change={changeSignup}
@@ -235,8 +346,8 @@ export default function App() {
             <Link to={"/"} style={{ color: "black", textDecoration: 'none' }}>
               <p>Home</p>
             </Link>
-            <Link to={"/pizza"} style={{ color: "black", textDecoration: 'none' }}>
-              <p>Place Order</p>
+            <Link to={"/profile"} style={{ color: "black", textDecoration: 'none' }}>
+              <p>User Profile</p>
             </Link>
           </nav>
 
