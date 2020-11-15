@@ -1,21 +1,20 @@
 import * as yup from "yup";
 
 export default yup.object().shape({
-    name: yup
+    owner: yup
         .string()
-        .required("Name is required")
-        .min(2, "Name must be 2 chars long."),
-    size: yup
+        .required("Please name owner")
+        .min(2, "Owner name must be 2 chars long"),
+    itemName: yup
         .string()
-        .required("Must select size."),
-    pepperoni: yup
-        .boolean(),
-    olives: yup
-        .boolean(),
-    onions: yup
-        .boolean(),
-    peppers: yup
-        .boolean(),
-    instructions: yup
-        .string(),
+        .required("Please name item"),
+    itemDescription: yup
+        .string()
+        .required("Please describe item"),
+    itemPrice: yup
+        .number()
+        .required("Please price item"),
+    itemCurrency: yup
+        .string()
+        .required("Please choose currency"),
 });
