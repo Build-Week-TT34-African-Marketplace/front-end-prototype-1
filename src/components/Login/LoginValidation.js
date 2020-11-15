@@ -7,5 +7,5 @@ export default yup.object().shape({
     password: yup
         .string()
         .required("Password is a required field")
-        .min(8, "Minimum password length is eight characters")
+        .min(8, "Minimum password length is eight characters"),
 });

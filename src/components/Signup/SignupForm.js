@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { withRouter } from 'react-router';
 
 
@@ -26,12 +26,17 @@ export default function SignupForm(props) {
     change(name, valueToUse);
   }
 
+  const history = useHistory();
+
+  const routeToLogin = () => {
+    history.push("/login");
+  }
+
   return (
     <form className='form container' onSubmit={formSubmit}>
       <div className='form-group submit'>
         <h2>Sign Up</h2>
-        {/* onClick={() => props.history.push("/")} */}
-        <button name="disabledButtSignup" disabled={disabled}>submit</button>
+        <button name="disabledButtSignup" disabled={disabled} onClick={routeToLogin}>submit</button>
         <br></br>
 
         <div name="errors" className='errors'>

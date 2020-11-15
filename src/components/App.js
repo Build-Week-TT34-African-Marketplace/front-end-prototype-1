@@ -314,10 +314,10 @@ export default function App() {
     <div>
       <Switch>
         <Route path="/login">
-          <Link to="/">Click here to continue to path `/` (home/items page) 
+          {/* <Link to="/">Click here to continue to path `/` (home/items page) 
           after submitting login information.
           (I can't add the link to the submit button without cancelling the 
-          form submission, for some reason.)</Link>
+          form submission, for some reason.)</Link> */}
           <LoginForm
             values={loginFormValues}
             change={changeLogin}
@@ -328,10 +328,10 @@ export default function App() {
           />
         </Route>
         <Route path="/signup">
-          <Link to="/login">Click here to continue to path `/login` (home/items page) 
+          {/* <Link to="/login">Click here to continue to path `/login` (home/items page) 
           after submitting signup information.
           (I can't add the link to the submit button without cancelling the 
-          form submission, for some reason.)</Link>
+          form submission, for some reason.)</Link> */}
           <SignupForm
             values={signupFormValues}
             change={changeSignup}
@@ -341,7 +341,7 @@ export default function App() {
             className="form"
           />
         </Route>
-        <Route path="/">
+        <Route exact path="/">
           <nav className="container">
             <Link to={"/"} style={{ color: "black", textDecoration: 'none' }}>
               <p>Home</p>
