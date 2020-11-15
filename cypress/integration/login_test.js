@@ -33,4 +33,20 @@ describe("Login app", () => {
             .type("badpassword")
             .should("have.value", "badpassword");
     });
+    
+    it("should disable submit button until both inputs are filled out", () => {
+        submitButton().should("be.disabled");
+        usernameInput().should("have.value", "");
+        passwordInput().should("have.value", "");
+        submitButton().should("be.disabled");
+        usernameInput().type("randomusername");
+        submitButton().should("be.disabled");
+        passwordInput().type("badpassword");
+        submitButton().should("be.not.disabled");
+        usernameInput().clear();
+        cy.contains("Username is a required field");
+        passwordInput().clear();
+        cy.contains("Password is a required field");
+        submitButton().should("be.disabled");
+    });
 })

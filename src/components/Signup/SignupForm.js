@@ -74,7 +74,7 @@ export default function SignupForm(props) {
             value={values.email}
             onChange={formChange}
             name='email'
-            type='text'
+            type='email'
           />
         </label>
         <br></br>
