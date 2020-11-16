@@ -1,6 +1,7 @@
 describe("Home app", () => {
     beforeEach(() => {
         cy.visit("http://localhost:3000");
+        cy.waitForReact();
     });
 
     const collapsedSellForm = () => cy.get(".collapsedBar");
@@ -11,6 +12,7 @@ describe("Home app", () => {
     const itemPriceInput = () => cy.get("input[name='itemPrice']");
     const itemCurrencyInput = () => cy.get("input[name='itemCurrency']");
     const submitButton = () => cy.get("button[name='disabledButt']");
+    // const selectCurrencyInput = () => cy.react("SelectCurrency");
 
     it("makes sure that tests work", () => {
         expect(1 + 1).to.equal(2);
@@ -32,6 +34,17 @@ describe("Home app", () => {
         cy.contains("Add Details for Item to Be Sold");
     });
 
+    it("should make sure the sell component elements exist", () => {
+        collapsedSellForm().click();
+        ownerInput().should("exist");
+        itemNameInput().should("exist");
+        itemDescriptionInput().should("exist");
+        itemPriceInput().should("exist");
+        itemCurrencyInput().should("exist");
+        submitButton().should("exist");
+        // selectCurrencyInput().should("exist");
+    });
+
     it("can fill out the sell input fields", () => {
         collapsedSellForm().click();
         ownerInput()
@@ -48,11 +61,64 @@ describe("Home app", () => {
             .should("have.value", "description");
         itemPriceInput()
             .should("have.value", "")
-            .type("price")
-            .should("have.value", "price");
+            .type("35")
+            .should("have.value", "35");
         itemCurrencyInput()
             .should("have.value", "")
             .type("currency")
             .should("have.value", "currency");
+    });
+
+    // it("can select a currency abbreviation from the list", () => {
+    //     collapsedSellForm().click();
+    //     selectCurrencyInput().type("USD");
+    //     selectCurrencyInput().should("have.value", "USD");
+    // });
+
+    it("can submit details for item to be sold", () => {
+        collapsedSellForm().click();
+        submitButton().should("be.disabled");
+        ownerInput().should("have.value", "");
+        itemNameInput().should("have.value", "");
+        itemDescriptionInput().should("have.value", "");
+        itemPriceInput().should("have.value", "");
+        itemCurrencyInput().should("have.value", "");
+        submitButton().should("be.disabled");
+        ownerInput().type("owner");
+        submitButton().should("be.disabled");
+        itemNameInput().type("itemname");
+        submitButton().should("be.disabled");
+        itemDescriptionInput().type("description");
+        submitButton().should("be.disabled");
+        itemPriceInput().type("35");
+        submitButton().should("be.disabled");
+        itemCurrencyInput().type("USD");
+        submitButton().should("be.not.disabled");
+        ownerInput().clear();
+        itemNameInput().clear();
+        itemDescriptionInput().clear();
+        itemPriceInput().clear();
+        itemCurrencyInput().clear();
+        submitButton().should("be.disabled");
+    });
+
+    it("can make a new item listing", () => {
+        collapsedSellForm().click();
+        cy.contains("Owner: Owner Name").should("not.exist");
+        cy.contains("Item name: Item Name").should("not.exist");
+        cy.contains("Item Description: Item Description").should("not.exist");
+        cy.contains("Item Currency: USD").should("not.exist");
+        cy.contains("Item Price: 35").should("not.exist");
+        ownerInput().type("Owner Name");
+        itemNameInput().type("Item Name");
+        itemDescriptionInput().type("Item Description");
+        itemPriceInput().type("35");
+        itemCurrencyInput().type("USD");
+        submitButton().click();
+        cy.contains("Owner: Owner Name").should("exist");
+        cy.contains("Item name: Item Name").should("exist");
+        cy.contains("Item Description: Item Description").should("exist");
+        cy.contains("Item Currency: USD").should("exist");
+        cy.contains("Item Price: 35").should("exist");
     });
 })
