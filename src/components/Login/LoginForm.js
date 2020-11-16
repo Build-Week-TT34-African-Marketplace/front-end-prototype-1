@@ -31,16 +31,11 @@ export default function LoginForm(props) {
     history.push("/signup");
   }
 
-  const routeToHome = () => {
-    
-    history.push("/");
-  }
-
   return (
     <form className='form container' onSubmit={formSubmit}>
       <div className='form-group submit'>
         <h2>Login</h2>
-        <button name="disabledButtSignup" disabled={disabled} onClick={routeToHome}>submit</button>
+        <button name="disabledButtSignup" disabled={disabled}>submit</button>
         <br></br>
 
         <div name="errors" className='errors'>

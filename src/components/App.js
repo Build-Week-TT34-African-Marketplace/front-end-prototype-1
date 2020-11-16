@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Route, Link, Switch } from "react-router-dom";
+import { Route, Link, Switch, Redirect } from "react-router-dom";
 
 import SellForm from "./SellForm";
 import Validation from "./Validation";
@@ -85,6 +85,14 @@ export default function App() {
   const [loginFormValues, setLoginFormValues] = useState(initialLoginFormValues);
   const [loginFormErrors, setLoginFormErrors] = useState(initialLoginFormErrors);
   const [loginFormDisabled, setLoginFormDisabled] = useState(initialLoginDisabled);
+
+  // State (set in submitLogin, located here in App.js, below) for redirect to items list/home page
+  // on LoginForm submission button click
+  const [loginRedirect, setLoginRedirect] = useState(false);
+
+  // State (set in postNewUser, located here in App.js, below) for redirect to items login page
+  // on SignupForm submission button click
+  const [signupRedirect, setSignupRedirect] = useState(false);
 
 
   // ****** SELLFORM FUNCTIONALITY BELOW ******
@@ -192,6 +200,9 @@ export default function App() {
         setUsers([res.data, ...users]);
         setSignupFormValues(initialSignupFormValues);
         // console.log(users);
+
+        // Redirect to home page if signup was successful
+        setSignupRedirect(true);
       })
       .catch((err) => {
         console.log(err);
@@ -241,14 +252,6 @@ export default function App() {
 
   // ****** LOGINFORM FUNCTIONALITY BELOW ******
 
-  // axios request for getting users from that database to which
-  // newUser was posted in SignUp from above should replace
-
-  // const checkLogin = (loginObj) => {
-  //   console.log(users);
-    
-  // }
-
   const checkLogin = (loginObj) => {
     axios
       .get("https://reqres.in/api/users")
@@ -263,7 +266,12 @@ export default function App() {
         });
         instance ? 
         console.log("Login success. Username and password found in `users` state.") :
-        console.log("Login failure. Username and password NOT found in `users` state.")
+        console.log("Login failure. Username and password NOT found in `users` state.");
+
+        // Redirect to home page if login was successful
+        instance ? 
+        setLoginRedirect(true) :
+        setLoginRedirect(false);
       })
       .catch((err) => {
         console.log(err);
@@ -272,7 +280,6 @@ export default function App() {
 
   const changeLogin = (name, value) => {
     yup
-    // LoginValidation ******
       .reach(LoginValidation, name)
       .validate(value)
       .then(() => {
@@ -314,11 +321,10 @@ export default function App() {
     <div>
       <Switch>
         <Route path="/login">
-          {/* <Link to="/">Click here to continue to path `/` (home/items page) 
-          after submitting login information.
-          (I can't add the link to the submit button without cancelling the 
-          form submission, for some reason.)</Link> */}
-          <LoginForm
+          {
+            loginRedirect ?
+            <Redirect to="/" /> :
+            <LoginForm
             values={loginFormValues}
             change={changeLogin}
             submit={submitLogin}
@@ -326,13 +332,21 @@ export default function App() {
             errors={loginFormErrors}
             className="form"
           />
+          }
+          {/* <Link to="/">Click here to continue to path `/` (home/items page) 
+          after submitting login information.
+          (I can't add the link to the submit button without cancelling the 
+          form submission, for some reason.)</Link> */}
         </Route>
         <Route path="/signup">
           {/* <Link to="/login">Click here to continue to path `/login` (home/items page) 
           after submitting signup information.
           (I can't add the link to the submit button without cancelling the 
           form submission, for some reason.)</Link> */}
-          <SignupForm
+          {
+            signupRedirect ?
+            <Redirect to="/login" /> :
+            <SignupForm
             values={signupFormValues}
             change={changeSignup}
             submit={submitSignup}
@@ -340,6 +354,7 @@ export default function App() {
             errors={signupFormErrors}
             className="form"
           />
+          }
         </Route>
         <Route exact path="/">
           <nav className="container">
