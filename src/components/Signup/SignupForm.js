@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { withRouter } from 'react-router';
 
 
@@ -30,8 +30,8 @@ export default function SignupForm(props) {
     <form className='form container' onSubmit={formSubmit}>
       <div className='form-group submit'>
         <h2>Sign Up</h2>
-        {/* onClick={() => props.history.push("/")} */}
-        <button name="disabledButtSignup" disabled={disabled}>submit</button>
+        <button name="disabledButtSignup" disabled={disabled}>Submit</button>
+        <br></br>
         <br></br>
 
         <div name="errors" className='errors'>
@@ -69,7 +69,7 @@ export default function SignupForm(props) {
             value={values.email}
             onChange={formChange}
             name='email'
-            type='text'
+            type='email'
           />
         </label>
         <br></br>

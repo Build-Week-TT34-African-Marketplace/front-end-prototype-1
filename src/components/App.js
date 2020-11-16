@@ -6,11 +6,11 @@ import SellForm from "./SellForm";
 import Validation from "./Validation";
 import Item from "./Item";
 
-import SignupForm from './SignupForm';
-import SignupValidation from "./SignupValidation";
+import SignupForm from './Signup/SignupForm';
+import SignupValidation from "./Signup/SignupValidation";
 
-import LoginForm from './LoginForm';
-import LoginValidation from "./LoginValidation";
+import LoginForm from './Login/LoginForm';
+import LoginValidation from "./Login/LoginValidation";
 
 import * as yup from "yup";
 
@@ -356,7 +356,7 @@ export default function App() {
           />
           }
         </Route>
-        <Route path="/">
+        <Route exact path="/">
           <nav className="container">
             <Link to={"/"} style={{ color: "black", textDecoration: 'none' }}>
               <p>Home</p>

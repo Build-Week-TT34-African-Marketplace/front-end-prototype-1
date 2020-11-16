@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { withRouter } from 'react-router';
 
 export default function LoginForm(props) {
@@ -25,11 +25,16 @@ export default function LoginForm(props) {
     change(name, valueToUse);
   }
 
+  const history = useHistory();
+
+  const routeToSignup = () => {
+    history.push("/signup");
+  }
+
   return (
     <form className='form container' onSubmit={formSubmit}>
       <div className='form-group submit'>
         <h2>Login</h2>
-        {/* onClick={() => props.history.push("/")} */}
         <button name="disabledButtSignup" disabled={disabled}>submit</button>
         <br></br>
 
@@ -40,7 +45,7 @@ export default function LoginForm(props) {
       </div>
 
       <div className='form-group inputs'>
-        <h4>If you don't have login credentials, go to `/signup`.</h4>
+        <h4>If you don't have login credentials, sign up <button id="signUpBtn" onClick={routeToSignup}>here.</button></h4>
         <p>
             Console log should return success message if the username and password submitted below
             can both be found in any given entry of the dummy api ("https://reqres.in/api/users") —— 
