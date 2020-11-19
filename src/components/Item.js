@@ -11,12 +11,11 @@ export default function Item({ details }) {
   }
   return (
     <div className="container">
-      <div className='item container'>
-        <p name="cardOwner">Category: {details.category}</p>
-        <p name="cardItemName">Item name: {details.name}</p>
-        <p name="cardItemCurrency">Item Location: {details.location}</p>
-        <p name="cardItemPrice">Item Price: {details.price}</p>
-      </div>
+      <p name="cardItemName">Item name: {details.name}</p>
+      <p name="cardItemDescription">Item Description: {details.description}</p>
+      <p name="cardItemPrice">Item Price: {details.price}</p>
+      <p name="cardItemLocation">Item Location: {details.location}</p>
+      <p name="cardItemCategory">Category: {details.category}</p>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useHistory } from "react-router-dom";
+import { Button } from 'reactstrap';
 
 export default function SellForm(props) {
   const {
@@ -15,9 +16,9 @@ export default function SellForm(props) {
 
 //   onSubmit
   const formSubmit = evt => {
-    evt.preventDefault()
-    submit()
-    history.push('/')
+    evt.preventDefault();
+    submit();
+    history.push("/");
   }
 
 //   onChange
@@ -36,33 +37,35 @@ export default function SellForm(props) {
             Go back home to see listings.
         </Link>
         <br></br><br></br> */}
-        <button name="disabledButt" disabled={disabled}>Submit</button>
+        <Button name="disabledButt" disabled={disabled}>Submit</Button>
 
         <div name="errors" className='errors'>
-          <div name="ownerError">{errors.category}</div>
           <div name="itemNameError">{errors.name}</div>
+          <div name="itemDescriptionError">{errors.description}</div>
           <div name="itemPriceError">{errors.price}</div>
-          <div name="itemCurrencyError">{errors.location}</div>
+          <div name="itemLocationError">{errors.location}</div>
+          <div name="itemCategoryError">{errors.category}</div>
         </div>
       </div>
 
       <div className='form-group inputs'>
         <h4>General information</h4>
 
-        <label>Category::&nbsp;
-          <input
-            value={values.category}
-            onChange={formChange}
-            name='category'
-            type='text'
-          />
-        </label>
-        <br></br>
+        
         <label>Item Name:&nbsp;
           <input
             value={values.name}
             onChange={formChange}
             name='name'
+            type='text'
+          />
+        </label>
+        <br></br>
+        <label>Item Description:&nbsp;
+          <input
+            value={values.description}
+            onChange={formChange}
+            name='description'
             type='text'
           />
         </label>
@@ -81,6 +84,15 @@ export default function SellForm(props) {
             value={values.location}
             onChange={formChange}
             name='location'
+            type='text'
+          />
+        </label>
+        <br></br>
+        <label>Category:&nbsp;
+          <input
+            value={values.category}
+            onChange={formChange}
+            name='category'
             type='text'
           />
         </label>

@@ -3,7 +3,7 @@ import * as yup from "yup";
 export default yup.object().shape({
     department: yup
         .string()
-        .required("Must type buyer"),
+        .required("Choose 'buyer' or 'seller'"),
     username: yup
         .string()
         .required("Username is a required field"),
