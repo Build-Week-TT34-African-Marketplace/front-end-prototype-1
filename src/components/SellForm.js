@@ -1,6 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
-import SelectCurrency from 'react-select-currency';
+import { useHistory } from "react-router-dom";
 
 export default function SellForm(props) {
   const {
@@ -11,12 +10,14 @@ export default function SellForm(props) {
     errors,
   } = props
 
-  const onSelectedCurrency = currencyAbbrev => {}
+  const history = useHistory()
+  
 
 //   onSubmit
   const formSubmit = evt => {
     evt.preventDefault()
     submit()
+    history.push('/')
   }
 
 //   onChange
@@ -38,73 +39,51 @@ export default function SellForm(props) {
         <button name="disabledButt" disabled={disabled}>Submit</button>
 
         <div name="errors" className='errors'>
-          <div name="ownerError">{errors.owner}</div>
-          <div name="itemNameError">{errors.itemName}</div>
-          <div name="itemDescriptionError">{errors.itemDescription}</div>
-          <div name="itemPriceError">{errors.itemPrice}</div>
-          <div name="itemCurrencyError">{errors.itemCurrency}</div>
+          <div name="ownerError">{errors.category}</div>
+          <div name="itemNameError">{errors.name}</div>
+          <div name="itemPriceError">{errors.price}</div>
+          <div name="itemCurrencyError">{errors.location}</div>
         </div>
       </div>
 
       <div className='form-group inputs'>
         <h4>General information</h4>
 
-        <label>Owner:&nbsp;
+        <label>Category::&nbsp;
           <input
-            value={values.owner}
+            value={values.category}
             onChange={formChange}
-            name='owner'
+            name='category'
             type='text'
           />
         </label>
         <br></br>
         <label>Item Name:&nbsp;
           <input
-            value={values.itemName}
+            value={values.name}
             onChange={formChange}
-            name='itemName'
-            type='text'
-          />
-        </label>
-        <br></br>
-        <label>Item Description:&nbsp;
-          <input
-            value={values.itemDescription}
-            onChange={formChange}
-            name='itemDescription'
+            name='name'
             type='text'
           />
         </label>
         <br></br>
         <label>Item Price:&nbsp;
           <input
-            value={values.itemPrice}
+            value={values.price}
             onChange={formChange}
-            name='itemPrice'
+            name='price'
             type='text'
           />
         </label>
         <br></br>
-        <label>Currency:&nbsp;
+        <label>Location:&nbsp;
           <input
-            value={values.itemCurrency}
+            value={values.location}
             onChange={formChange}
-            name='itemCurrency'
+            name='location'
             type='text'
           />
-            <p>Search here for currency abbreviation:
-                <SelectCurrency value={'USD'} onChange={formChange} onSelectedCurrency={onSelectedCurrency} />
-            </p>
         </label>
-        {/* <br></br>
-        <label>Item Price:&nbsp;
-          <input
-            value={values.itemPrice}
-            onChange={formChange}
-            name='itemPrice'
-            type='text'
-          />
-        </label> */}
       </div>
     </form>
   )

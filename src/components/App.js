@@ -23,34 +23,29 @@ import * as yup from "yup";
 // or some other distinguishing tag derived from the data attached
 // to each user at signup).
 const initialFormValues = {
-  owner: "",
-  itemName: "",
-  itemDescription: "",
-  itemPrice: "",
-  itemCurrency: "",
+  category: '',
+  id: Date.now(),
+  location: '',
+  name: '',
+  price: ''
 };
 const initialFormErrors = {
-  owner: "",
-  itemName: "",
-  itemDescription: "",
-  itemPrice: "",
-  itemCurrency: "",
+  category: '',
+  location: '',
+  name: '',
+  price: ''
 };
 const initialDisabled = true;
 const initialItems = [];
 
 // User form state initialization values (edited by SignupForms)
 const initialSignupFormValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
+  department: "",
   username: "",
   password: "",
 };
 const initialSignupFormErrors = {
-  firstName: "",
-  lastName: "",
-  email: "",
+  department: "",
   username: "",
   password: "",
 };
@@ -108,9 +103,9 @@ export default function App() {
 
   // ****** SELLFORM FUNCTIONALITY BELOW ******
   const getItems = () => {
-    axios
+    axiosWithAuth()
       // This is just dummy data for SellForms...
-      .get("/items-get")
+      .get("/items")
       .then((res) => {
         // In fact, we don't use it whatsoever, hence the `setItems([]);` below
         console.log(res);
@@ -121,24 +116,23 @@ export default function App() {
       });
   };
 
+  
+  const postNewItem = (newItem) => {
+    axiosWithAuth()
+    .post("/items/additem", newItem)
+    .then((res) => {
+      setItems([res.data, ...items]);
+      setFormValues(initialFormValues);
+      console.log('inside postNewItem promise', items);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+  
   useEffect(() => {
     getItems();
   }, []);
-
-  const postNewItem = (newItem) => {
-    axios
-      .post("/item-post", newItem)
-      .then((res) => {
-        setItems([res.data, ...items]);
-        setFormValues(initialFormValues);
-        console.log(items);
-        history.push('/')
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   // For expand/collapse functionality of the main SellForm div
 
   // Uses yup to check for validity.
@@ -167,11 +161,10 @@ export default function App() {
   // Adds new item based on formValues submitted from SellForm
   const submitIt = () => {
     const newItem = {
-      owner: formValues.owner.trim(),
-      itemName: formValues.itemName.trim(),
-      itemDescription: formValues.itemDescription.trim(),
-      itemPrice: formValues.itemPrice.trim(),
-      itemCurrency: formValues.itemCurrency.trim(),
+      category: formValues.category.trim(),
+      name: formValues.name.trim(),
+      price: formValues.price.trim(),
+      location: formValues.location.trim(),
     };
     console.log(newItem);
     postNewItem(newItem);
@@ -205,7 +198,7 @@ export default function App() {
 
   const postNewUser = (newUser) => {
     axiosWithAuth()
-      .post("register", newUser)
+      .post("/auth/register", newUser)
       .then((res) => {
         console.log("postNewUser promise:", res);
         localStorage.setItem("owner_id", res.data);
@@ -215,6 +208,17 @@ export default function App() {
       .catch((err) => {
         console.log("postNewUser catch", err);
       });
+      
+  };
+  
+  const submitSignup = () => {
+    const newUser = {
+      department: signupFormValues.department.trim(),
+      username: signupFormValues.username.trim(),
+      password: signupFormValues.password.trim(),
+    };
+    console.log(newUser);
+    postNewUser(newUser);
   };
 
   const changeSignup = (name, value) => {
@@ -238,17 +242,6 @@ export default function App() {
     setSignupFormValues({ ...signupFormValues, [name]: value });
   };
 
-  const submitSignup = () => {
-    const newUser = {
-      firstName: signupFormValues.firstName.trim(),
-      lastName: signupFormValues.lastName.trim(),
-      email: signupFormValues.email.trim(),
-      username: signupFormValues.username.trim(),
-      password: signupFormValues.password.trim(),
-    };
-    console.log(newUser);
-    postNewUser(newUser);
-  };
 
   useEffect(() => {
     SignupValidation.isValid(signupFormValues).then((valid) => {
@@ -262,12 +255,11 @@ export default function App() {
 
   const checkLogin = (loginObj) => {
     axiosWithAuth()
-      .post("user-post", loginObj)
+      .post("/auth/login", loginObj)
       .then((res) => {
         console.log("checkLogin res:", res);
         setUsers(res);
         localStorage.setItem("token", res.data.token);
-        history.push("/");
         setLoggedIn(true);
       })
       .catch((err) => {
@@ -363,24 +355,21 @@ export default function App() {
           className="form"
         />
       </Route>
-      <Route path="/">
-        <Home items={items} />
-      </Route>
-      <PrivateRoute
-        path="/sellform"
-        render={(props) => {
-          return (
+      <PrivateRoute path="/sellform">
             <SellForm
-              {...props}
               values={formValues}
               change={changeIt}
               submit={submitIt}
               disabled={disabled}
               errors={formErrors}
-            />
-          );
-        }}
-      />
+              />
+      </PrivateRoute>
+      <Route path="/">
+        <Home items={items} />
+      </Route>
+      <Route path="/items/:id">
+      <Item/>
+      </Route>
     </div>
   );
 }

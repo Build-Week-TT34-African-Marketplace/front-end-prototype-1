@@ -1,16 +1,9 @@
 import * as yup from "yup";
 
 export default yup.object().shape({
-    firstName: yup
+    department: yup
         .string()
-        .required("First name is a required field"),
-    lastName: yup
-        .string()
-        .required("Last name is a required field"),
-    email: yup
-        .string()
-        .email("Please enter a valid email address")
-        .required("Email address is a required field"),
+        .required("Must type buyer"),
     username: yup
         .string()
         .required("Username is a required field"),

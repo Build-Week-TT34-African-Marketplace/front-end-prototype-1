@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 
 
 export default function SignupForm(props) {
+  const history = useHistory()
   const {
     values,
     change,
@@ -16,6 +17,7 @@ export default function SignupForm(props) {
   const formSubmit = evt => {
     evt.preventDefault()
     submit()
+    history.push('/login')
   }
 
 //   onChange
@@ -35,9 +37,7 @@ export default function SignupForm(props) {
         <br></br>
 
         <div name="errors" className='errors'>
-          <div name="firstNameError">{errors.firstName}</div>
-          <div name="lastNameError">{errors.lastName}</div>
-          <div name="emailError">{errors.email}</div>
+          <div name="departmentError">{errors.department}</div>
           <div name="usernameError">{errors.username}</div>
           <div name="passwordError">{errors.password}</div>
         </div>
@@ -46,30 +46,13 @@ export default function SignupForm(props) {
       <div className='form-group inputs'>
         <h4>General information</h4>
 
-        <label>First Name:&nbsp;
+       
+        <label>Department:&nbsp;
           <input
-            value={values.firstName}
+            value={values.department}
             onChange={formChange}
-            name='firstName'
+            name='department'
             type='text'
-          />
-        </label>
-        <br></br>
-        <label>Last Name:&nbsp;
-          <input
-            value={values.lastName}
-            onChange={formChange}
-            name='lastName'
-            type='text'
-          />
-        </label>
-        <br></br>
-        <label>Email:&nbsp;
-          <input
-            value={values.email}
-            onChange={formChange}
-            name='email'
-            type='email'
           />
         </label>
         <br></br>
