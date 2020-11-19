@@ -75,6 +75,8 @@ export default function App() {
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
 
+  const [expand, setExpand] = useState(false);
+
   // State for `users` and for `SignupForm`
   const [users, setUsers] = useState(initialUsers);
   const [signupFormValues, setSignupFormValues] = useState(
@@ -100,46 +102,77 @@ export default function App() {
   );
   const [isLoggedIn, setLoggedIn] = useState(false);
   const { history } = useHistory();
+
   // State (set in submitLogin, located here in App.js, below) for redirect to items list/home page
   // on LoginForm submission button click
+  const [loginRedirect, setLoginRedirect] = useState(false);
 
   // State (set in postNewUser, located here in App.js, below) for redirect to items login page
   // on SignupForm submission button click
+  const [signupRedirect, setSignupRedirect] = useState(false);
 
   // ****** SELLFORM FUNCTIONALITY BELOW ******
+  // const getItems = () => {
+  //   axios
+  //     // This is just dummy data for SellForms...
+  //     .get("/items-get")
+  //     .then((res) => {
+  //       // In fact, we don't use it whatsoever, hence the `setItems([]);` below
+  //       console.log(res);
+  //       setItems(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   const getItems = () => {
     axios
       // This is just dummy data for SellForms...
-      .get("/items-get")
+      .get("https://reqres.in/api/users")
       .then((res) => {
         // In fact, we don't use it whatsoever, hence the `setItems([]);` below
-        console.log(res);
-        setItems(res.data);
+        setItems([]);
       })
       .catch((err) => {
         console.log(err);
       });
-  };
+  }
 
   useEffect(() => {
     getItems();
   }, []);
 
+  // const postNewItem = (newItem) => {
+  //   axios
+  //     .post("/item-post", newItem)
+  //     .then((res) => {
+  //       setItems([res.data, ...items]);
+  //       setFormValues(initialFormValues);
+  //       console.log(items);
+  //       history.push('/')
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const postNewItem = (newItem) => {
     axios
-      .post("/item-post", newItem)
+      .post("https://reqres.in/api/users", newItem)
       .then((res) => {
         setItems([res.data, ...items]);
         setFormValues(initialFormValues);
         console.log(items);
-        history.push('/')
       })
       .catch((err) => {
         console.log(err);
       });
-  };
+  }
 
   // For expand/collapse functionality of the main SellForm div
+  const clickExpand = (evt) => {
+    setExpand(!expand);
+  }
 
   // Uses yup to check for validity.
   // If invalid, sets error message to state with `setFormErrors`.
@@ -203,19 +236,35 @@ export default function App() {
     getUsers();
   }, []);
 
+  // const postNewUser = (newUser) => {
+  //   axiosWithAuth()
+  //     .post("register", newUser)
+  //     .then((res) => {
+  //       console.log("postNewUser promise:", res);
+  //       localStorage.setItem("owner_id", res.data);
+  //       setSignupFormValues(initialSignupFormValues);
+  //       // console.log(users);
+  //     })
+  //     .catch((err) => {
+  //       console.log("postNewUser catch", err);
+  //     });
+  // };
+
   const postNewUser = (newUser) => {
-    axiosWithAuth()
-      .post("register", newUser)
+    axios
+      .post("https://reqres.in/api/users", newUser)
       .then((res) => {
-        console.log("postNewUser promise:", res);
-        localStorage.setItem("owner_id", res.data);
+        setUsers([res.data, ...users]);
         setSignupFormValues(initialSignupFormValues);
         // console.log(users);
+
+        // Redirect to home page if signup was successful
+        setSignupRedirect(true);
       })
       .catch((err) => {
-        console.log("postNewUser catch", err);
+        console.log(err);
       });
-  };
+  }
 
   const changeSignup = (name, value) => {
     yup
@@ -260,20 +309,50 @@ export default function App() {
 
   // ****** LOGINFORM FUNCTIONALITY BELOW ******
 
+  // const checkLogin = (loginObj) => {
+  //   axiosWithAuth()
+  //     .post("user-post", loginObj)
+  //     .then((res) => {
+  //       console.log("checkLogin res:", res);
+  //       setUsers(res);
+  //       localStorage.setItem("token", res.data.token);
+  //       history.push("/");
+  //       setLoggedIn(true);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   const checkLogin = (loginObj) => {
-    axiosWithAuth()
-      .post("user-post", loginObj)
+    axios
+      .get("https://reqres.in/api/users")
       .then((res) => {
-        console.log("checkLogin res:", res);
+        console.log(res);
         setUsers(res);
-        localStorage.setItem("token", res.data.token);
-        history.push("/");
-        setLoggedIn(true);
+        let instance = false;
+        users.forEach((user) => {
+          if (loginObj.username === user.username && loginObj.password === user.password) {
+            instance = true;
+          }
+        });
+        instance ? 
+        console.log("Login success. Username and password found in `users` state.") :
+        console.log("Login failure. Username and password NOT found in `users` state.");
+
+        // Redirect to home page if login was successful
+        instance ? 
+        setLoginRedirect(true) :
+        setLoginRedirect(false);
+
+        instance ?
+        setLoggedIn(true) :
+        setLoggedIn(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  };
+  }
 
   const changeLogin = (name, value) => {
     yup
@@ -325,7 +404,7 @@ export default function App() {
         </Link>
       );
     } else {
-      return <div>log in nerd lol</div>;
+      return null;
     }
   };
 
@@ -336,51 +415,97 @@ export default function App() {
           <p>Home</p>
         </Link>
         <Link to={"/login"} style={{ color: "black", textDecoration: "none" }}>
-          <p>Sign in</p>
+          <p>Login in</p>
         </Link>
         <Link to={"/signup"} style={{ color: "black", textDecoration: "none" }}>
-          <p>Need an account?</p>
+          <p>Sign up</p>
         </Link>
         {showListing()}
       </nav>
       <Route exact path="/login">
-        <LoginForm
-          values={loginFormValues}
-          change={changeLogin}
-          submit={submitLogin}
-          disabled={loginFormDisabled}
-          errors={loginFormErrors}
-          className="form"
-        />
+          {
+            loginRedirect ?
+            <Redirect to="/" /> :
+            <LoginForm
+            values={loginFormValues}
+            change={changeLogin}
+            submit={submitLogin}
+            disabled={loginFormDisabled}
+            errors={loginFormErrors}
+            className="form"
+          />
+          }
       </Route>
       <Route path="/signup">
-        <SignupForm
-          values={signupFormValues}
-          change={changeSignup}
-          submit={submitSignup}
-          disabled={signupFormDisabled}
-          errors={signupFormErrors}
-          className="form"
-        />
+        {
+          signupRedirect ?
+          <Redirect to="/login" /> :
+          <SignupForm
+            values={signupFormValues}
+            change={changeSignup}
+            submit={submitSignup}
+            disabled={signupFormDisabled}
+            errors={signupFormErrors}
+            className="form"
+          />
+        }
       </Route>
-      <Route path="/">
-        <Home items={items} />
+      <Route exact path="/">
+        <div className="container">
+          {
+            isLoggedIn ?
+            <>
+            {
+              expand ? 
+              <>
+                <div className="expandedBar" onClick={clickExpand}>Click to collapse form</div>
+                <SellForm
+                  values={formValues}
+                  change={changeIt}
+                  submit={submitIt}
+                  disabled={disabled}
+                  errors={formErrors}
+                  onClick={clickExpand}
+                  className="expandedContent"
+                />
+              </>
+              : <div className="collapsedBar" onClick={clickExpand}>Click to sell item</div>
+            } 
+            </>
+            :
+            <></>
+          }
+          <Home items={items}/>
+        </div>
       </Route>
-      <PrivateRoute
-        path="/sellform"
-        render={(props) => {
-          return (
-            <SellForm
-              {...props}
-              values={formValues}
-              change={changeIt}
-              submit={submitIt}
-              disabled={disabled}
-              errors={formErrors}
-            />
-          );
-        }}
-      />
+      <Route path="/sellform">
+        {
+          !isLoggedIn ?
+          <Redirect to="/signup" /> :
+          <SellForm
+            values={formValues}
+            change={changeIt}
+            submit={submitIt}
+            disabled={disabled}
+            errors={formErrors}
+          />
+        }
+      </Route>
+      {/* / <PrivateRoute
+      //   path="/sellform"
+      //   render={(props) => {
+      //     return (
+      //       <SellForm
+      //         {...props}
+      //         values={formValues}
+      //         change={changeIt}
+      //         submit={submitIt}
+      //         disabled={disabled}
+      //         errors={formErrors}
+      //       />
+      //     );
+      //   }}
+      // /> */}
     </div>
   );
 }
