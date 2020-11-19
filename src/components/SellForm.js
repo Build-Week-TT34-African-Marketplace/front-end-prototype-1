@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import SelectCurrency from 'react-select-currency';
+import { Button } from 'reactstrap';
 
 export default function SellForm(props) {
   const {
@@ -35,7 +36,7 @@ export default function SellForm(props) {
             Go back home to see listings.
         </Link>
         <br></br><br></br> */}
-        <button name="disabledButt" disabled={disabled}>Submit</button>
+        <Button name="disabledButt" disabled={disabled}>Submit</Button>
 
         <div name="errors" className='errors'>
           <div name="ownerError">{errors.owner}</div>

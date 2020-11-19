@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from "react-router-dom";
 import { withRouter } from 'react-router';
+import { Button } from 'reactstrap';
 
 
 export default function SignupForm(props) {
@@ -28,12 +29,11 @@ export default function SignupForm(props) {
 
   return (
     <form className='form container' onSubmit={formSubmit}>
-      <div className='form-group submit'>
+      <div className='form-group submit headerbox'>
         <h2>Sign Up</h2>
-        <button name="disabledButtSignup" disabled={disabled}>Submit</button>
+        <h4>Please sign up to sell items on the marketplace</h4>
         <br></br>
         <br></br>
-
         <div name="errors" className='errors'>
           <div name="firstNameError">{errors.firstName}</div>
           <div name="lastNameError">{errors.lastName}</div>
@@ -44,7 +44,7 @@ export default function SignupForm(props) {
       </div>
 
       <div className='form-group inputs'>
-        <h4>General information</h4>
+        <h4>Owner information</h4>
 
         <label>First Name:&nbsp;
           <input
@@ -90,6 +90,9 @@ export default function SignupForm(props) {
             type='text'
           />
         </label>
+        <br></br>
+        <br></br>
+        <Button name="disabledButtSignup" disabled={disabled}>Submit</Button>
       </div>
     </form>
   )

@@ -400,7 +400,7 @@ export default function App() {
           to={"/sellform"}
           style={{ color: "black", textDecoration: "none" }}
         >
-          <p>Add a listing!</p>
+          <p>Sell an Item!</p>
         </Link>
       );
     } else {
@@ -410,7 +410,7 @@ export default function App() {
 
   return (
     <div>
-      <nav className="container">
+      <div className="nav">
         <Link to={"/"} style={{ color: "black", textDecoration: "none" }}>
           <p>Home</p>
         </Link>
@@ -421,7 +421,7 @@ export default function App() {
           <p>Sign up</p>
         </Link>
         {showListing()}
-      </nav>
+      </div>
       <Route exact path="/login">
           {
             loginRedirect ?
