@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import { withRouter } from 'react-router';
-import { Button } from 'reactstrap';
+import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Dropdown } from "reactstrap";
 
 
 
@@ -15,6 +15,36 @@ export default function SignupForm(props) {
     errors,
   } = props
 
+
+  // const state = {
+  //   currency: '',
+  //   dropDownOpen: '',
+  // }
+  // const [staate, setStaate] = useState({
+  //   currency: '',
+  // })
+  const [toggleState, setToggleState] = useState({
+    toggle: "",
+  })
+  const [selectionState, setSelectionState] = useState({
+    selection: "Select department",
+  })
+
+  
+  // const handleChange = (evt) => {
+  //   console.log(evt.target.value)
+  //   setStaate({ currency: evt.target.value })
+  //   // setSelectionState({ selection: evt.target.value })
+  // }
+  //from below: onClick={handleChange}
+
+  const toggle = () => {
+    setToggleState({ dropDownOpen: !toggleState.dropDownOpen })
+  }
+
+
+
+
 //   onSubmit
   const formSubmit = evt => {
     evt.preventDefault()
@@ -26,8 +56,12 @@ export default function SignupForm(props) {
   const formChange = evt => {
     const { name, value, type, checked } = evt.target
     // debugger;
+    console.log(value);
     const valueToUse = type === "checkbox" ? checked : value;
     change(name, valueToUse);
+    if (name === "department"){
+      setSelectionState({ selection: evt.target.value });
+    }
   }
 
   return (
@@ -49,15 +83,60 @@ export default function SignupForm(props) {
         <h4>General information</h4>
 
        
-        <label>Department:&nbsp;
+        {/* <label>Department:&nbsp;
           <input
             value={values.department}
             onChange={formChange}
             name='department'
             type='text'
           />
-        </label>
+        </label> */}
+
+        {/* <label>Department:&nbsp;
+          <select
+            value={values.department}
+            onChange={formChange}
+            name='department'
+          />
+          <option value=''>- Select an option -</option>
+          <option value='buyer'>Buyer</option>
+          <option value='seller'>Seller</option>
+        </label> */}
+{/* 
+        <DropdownToggle>
+          Select an option
+        </DropdownToggle>
+        <ButtonDropdown>
+        <DropdownMenu name="department">
+          <DropdownItem value="buyer" onClick={formChange}>
+            Buyer
+          </DropdownItem>
+          <DropdownItem value="seller" onClick={formChange}>
+            Seller
+          </DropdownItem>
+        </DropdownMenu>
+        </ButtonDropdown> */}
+
+
+        <ButtonDropdown >
+          <Dropdown isOpen={toggleState.dropDownOpen} toggle={toggle} >
+            <DropdownToggle color="primary" caret className="dropdown-toggle">
+                {selectionState.selection}
+            </DropdownToggle>
+            <DropdownMenu className="currency-dropdown">
+                    <DropdownItem name="department" onClick={formChange} value="buyer">buyer</DropdownItem>
+                    <DropdownItem name="department" onClick={formChange} value="seller">seller</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </ButtonDropdown>
+
+
+
+
+
         <br></br>
+
+
         <label>Username:&nbsp;
           <input
             value={values.username}
@@ -77,7 +156,7 @@ export default function SignupForm(props) {
         </label>
         <br></br>
         <br></br>
-        <Button name="disabledButtSignup" disabled={disabled}>Submit</Button>
+        <button name="disabledButtSignup" disabled={disabled}>Submit</button>
       </div>
     </form>
   )
