@@ -29,6 +29,16 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+**ABOUT OUR PROJECT**
+
+This was done without a functioning backend, which may hopefully be rectified in future updates. Due to this, as well as time crunch, it is less polished than we would like it to be.
+
+This product is intended to serve as a local online marketplace where users may post and view listings of items. Login and signup forms are provided which store them to a hand-made API (not the best but due to the issues we had without a backend we are using this). Once a valid login is made, depending on the role of the user they may browse items to buy or post an item for sale.
+
+The items will initially be posted with no updated information, this is currently a bug due to our lack of backend, the items will update into the list in some time.
+
+There is plenty of room for iteration on this project (contact between users, styling and polish, storing of information), so feel free to do with that what you can.
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
