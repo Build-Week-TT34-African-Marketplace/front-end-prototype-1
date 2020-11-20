@@ -1,80 +1,24 @@
-# Getting Started with Create React App
+# African Marketplace
+
+## Using the website
+
+Deployed project link: https://african-marketplace-six.vercel.app/
+
+This is the front-end of the African Marketplace app built by tt_webft_34 for the build week of 11/13/20 to 11/20/20.
+
+This project is designed to function as a centralized, online marketplace on which small business owners can post items to be sold or items for sale. Anyone who navigates to the link above can see the items listed on the "Home" (`/`) page, but only users who have logged in may add an item to the listing. To establish login credentials, a user must first sign up in the `/signup` page ("Sign Up" on the nav bar). Signing up will add the user's credentials to the back-end, at which point the user may log in at `/login` ("Log in" on the nav bar).
+
+The [back-end](https://github.com/LambdaSchoolBuildWeeks/african-marketplace) was taken from another version of the same project, by a past Lambda student, because our back-end was not working. Given the delays associated with this glitch in our production, there are certain minor bugs, pertaining to the communication between the front- and back-ends, all of which bugs only occur for new users who have just visited the site for the first time. If the user is not accessing the site from an incognito window, all bugs will disappear after the initial sign up and login. Another avenue for further refinement of this version of the project, in addition to ironing out the above-mentioned bugs, would be to ensure that a user is not logged out immediately upon refreshing the page.
+
+There is plenty of room for extension of and iteration on this project (e.g., contact between users, styling and polish, storing of information), so feel free to do with that what you can.
+
+## Using the repository locally
+
+1. Fork
+2. `git clone https://github.com/Build-Week-TT34-African-Marketplace/front-end-prototype-1.git`
+3. `npm install`
+4. `npm start`
+
+### Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-**ABOUT OUR PROJECT**
-
-This was done without a functioning backend, which may hopefully be rectified in future updates. Due to this, as well as time crunch, it is less polished than we would like it to be.
-
-This product is intended to serve as a local online marketplace where users may post and view listings of items. Login and signup forms are provided which store them to a hand-made API (not the best but due to the issues we had without a backend we are using this). Once a valid login is made, depending on the role of the user they may browse items to buy or post an item for sale.
-
-The items will initially be posted with no updated information, this is currently a bug due to our lack of backend, the items will update into the list in some time.
-
-There is plenty of room for iteration on this project (contact between users, styling and polish, storing of information), so feel free to do with that what you can.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

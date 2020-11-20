@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
 import { withRouter } from 'react-router';
-import { ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Dropdown } from "reactstrap";
+import { Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Dropdown } from "reactstrap";
 
 
 
@@ -15,14 +15,6 @@ export default function SignupForm(props) {
     errors,
   } = props
 
-
-  // const state = {
-  //   currency: '',
-  //   dropDownOpen: '',
-  // }
-  // const [staate, setStaate] = useState({
-  //   currency: '',
-  // })
   const [toggleState, setToggleState] = useState({
     toggle: "",
   })
@@ -30,20 +22,9 @@ export default function SignupForm(props) {
     selection: "Select department",
   })
 
-  
-  // const handleChange = (evt) => {
-  //   console.log(evt.target.value)
-  //   setStaate({ currency: evt.target.value })
-  //   // setSelectionState({ selection: evt.target.value })
-  // }
-  //from below: onClick={handleChange}
-
   const toggle = () => {
     setToggleState({ dropDownOpen: !toggleState.dropDownOpen })
   }
-
-
-
 
 //   onSubmit
   const formSubmit = evt => {
@@ -80,63 +61,8 @@ export default function SignupForm(props) {
       </div>
 
       <div className='form-group inputs'>
-        <h4>General information</h4>
-
-       
-        {/* <label>Department:&nbsp;
-          <input
-            value={values.department}
-            onChange={formChange}
-            name='department'
-            type='text'
-          />
-        </label> */}
-
-        {/* <label>Department:&nbsp;
-          <select
-            value={values.department}
-            onChange={formChange}
-            name='department'
-          />
-          <option value=''>- Select an option -</option>
-          <option value='buyer'>Buyer</option>
-          <option value='seller'>Seller</option>
-        </label> */}
-{/* 
-        <DropdownToggle>
-          Select an option
-        </DropdownToggle>
-        <ButtonDropdown>
-        <DropdownMenu name="department">
-          <DropdownItem value="buyer" onClick={formChange}>
-            Buyer
-          </DropdownItem>
-          <DropdownItem value="seller" onClick={formChange}>
-            Seller
-          </DropdownItem>
-        </DropdownMenu>
-        </ButtonDropdown> */}
-
-
-        <ButtonDropdown >
-          <Dropdown isOpen={toggleState.dropDownOpen} toggle={toggle} >
-            <DropdownToggle color="primary" caret className="dropdown-toggle">
-                {selectionState.selection}
-            </DropdownToggle>
-            <DropdownMenu className="currency-dropdown">
-                    <DropdownItem name="department" onClick={formChange} value="buyer">buyer</DropdownItem>
-                    <DropdownItem name="department" onClick={formChange} value="seller">seller</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </ButtonDropdown>
-
-
-
-
-
+        <h4>User information</h4>
         <br></br>
-
-
         <label>Username:&nbsp;
           <input
             value={values.username}
@@ -156,7 +82,21 @@ export default function SignupForm(props) {
         </label>
         <br></br>
         <br></br>
-        <button name="disabledButtSignup" disabled={disabled}>Submit</button>
+        <ButtonDropdown >
+          <Dropdown isOpen={toggleState.dropDownOpen} toggle={toggle} >
+            <DropdownToggle color="primary" caret className="dropdown-toggle">
+                {selectionState.selection}
+            </DropdownToggle>
+            <DropdownMenu className="currency-dropdown">
+              <DropdownItem name="department" onClick={formChange} value="Select Department">Select Department</DropdownItem>
+              <DropdownItem name="department" onClick={formChange} value="buyer">buyer</DropdownItem>
+              <DropdownItem name="department" onClick={formChange} value="seller">seller</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </ButtonDropdown>
+        <br></br>
+        <br></br>
+        <Button name="disabledButtSignup" disabled={disabled}>Submit</Button>
       </div>
     </form>
   )

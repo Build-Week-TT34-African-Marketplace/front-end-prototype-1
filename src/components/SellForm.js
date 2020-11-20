@@ -32,12 +32,12 @@ export default function SellForm(props) {
   return (
     <form className='form container' onSubmit={formSubmit}>
       <div className='form-group submit'>
-        <h2>Add Details for Item to Be Sold</h2>
+        <h2>Item Details</h2>
+        <h6>Please note in Item Description whether you are selling the item or in search of it</h6>
         {/* <Link to="/">
             Go back home to see listings.
         </Link>
         <br></br><br></br> */}
-        <Button name="disabledButt" disabled={disabled}>Submit</Button>
 
         <div name="errors" className='errors'>
           <div name="itemNameError">{errors.name}</div>
@@ -49,9 +49,6 @@ export default function SellForm(props) {
       </div>
 
       <div className='form-group inputs'>
-        <h4>General information</h4>
-
-        
         <label>Item Name:&nbsp;
           <input
             value={values.name}
@@ -96,6 +93,8 @@ export default function SellForm(props) {
             type='text'
           />
         </label>
+        <br></br><br></br>
+        <Button name="disabledButt" disabled={disabled}>Submit</Button>
       </div>
     </form>
   )

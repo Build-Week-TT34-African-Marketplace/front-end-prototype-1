@@ -330,7 +330,7 @@ export default function App() {
           to={"/sellform"}
           style={{ color: "black", textDecoration: "none" }}
         >
-          <p>Sell an Item!</p>
+          <p>Buy or Sell an Item</p>
         </Link>
       );
     } else {
